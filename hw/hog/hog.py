@@ -441,12 +441,16 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
 
 
 def final_strategy(score, opponent_score):
-    """Write a brief description of your final strategy.
-
-    *** YOUR DESCRIPTION HERE ***
+    """This function implements a combination of strategies to return the number of 
+    dice rolls (1 to 10) for the current situation. 
     """
     # BEGIN PROBLEM 12
-    return 6  # Replace this statement
+    bacon_score = free_bacon(opponent_score)
+    if score + bacon_score >= 100:
+        return 0
+    else:
+        return extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6)
+    # Replace this statement
     # END PROBLEM 12
 
 ##########################
