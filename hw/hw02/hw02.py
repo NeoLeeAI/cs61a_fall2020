@@ -104,6 +104,14 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        lastdigit = n % 10
+        secondtolastdigit = n // 10 % 10 
+        if lastdigit == secondtolastdigit:
+            return 0 + missing_digits(n//10)
+        return (lastdigit - secondtolastdigit - 1) + missing_digits(n//10)
 
 
 
@@ -142,6 +150,19 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(total, coin):
+        if total == 0:
+            return 1
+        elif total < 0:
+            return 0
+        elif coin == None:
+            return 0
+        else:
+            withcoin = helper(total-coin, coin)
+            withoutcoin = helper(total, next_largest_coin(coin))
+            return withcoin + withoutcoin
+    return helper(total, 1) 
+
 
 
 from operator import sub, mul
@@ -157,4 +178,3 @@ def make_anonymous_factorial():
     True
     """
     return 'YOUR_EXPRESSION_HERE'
-
