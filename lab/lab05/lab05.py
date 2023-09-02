@@ -272,7 +272,7 @@ def riffle(deck):
     [0, 10, 1, 11, 2, 12, 3, 13, 4, 14, 5, 15, 6, 16, 7, 17, 8, 18, 9, 19]
     """
     "*** YOUR CODE HERE ***"
-    return _______
+    return [deck[k//2] if k%2 == 0 else deck[(len(deck)+k)//2] for k in range(len(deck))]
 
 
 def add_trees(t1, t2):
