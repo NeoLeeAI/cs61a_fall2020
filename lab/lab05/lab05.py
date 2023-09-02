@@ -195,7 +195,7 @@ def sprout_leaves(t, leaves):
     """
     "*** YOUR CODE HERE ***"
     if is_leaf(t):
-        return tree(label(t), [tree(i) for i in leaves])
+        return tree(label(t), [tree(x) for x in leaves])
     elif len(leaves) == 0:
         return t
     else:
