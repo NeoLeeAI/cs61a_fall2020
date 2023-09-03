@@ -311,6 +311,7 @@ def add_trees(t1, t2):
       5
     """
     "*** YOUR CODE HERE ***"
+    
 
 
 def build_successors_table(tokens):
