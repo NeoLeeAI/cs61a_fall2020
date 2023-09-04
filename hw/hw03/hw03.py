@@ -107,6 +107,14 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+    else:
+        left_torque = length(left(m)) * total_weight(end(left(m))) 
+        right_torque =  length(right(m)) * total_weight(end(right(m)))
+        if left_torque == right_torque and balanced(end(left(m))) and balanced(end(right(m))):
+            return True
+        return False 
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
