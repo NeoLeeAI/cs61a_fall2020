@@ -300,6 +300,8 @@ def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    neg_y = interval(-upper_bound(y), -lower_bound(y))
+    return add_interval(x, neg_y)
 
 
 def div_interval(x, y):
