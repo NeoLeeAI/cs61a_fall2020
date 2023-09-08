@@ -309,6 +309,7 @@ def div_interval(x, y):
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
+    assert (lower_bound(y) < 0 and upper_bound(y) <= 0) or (lower_bound(y) >= 0 and upper_bound(y) > 0),'y cannot be interval across 0'
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -321,6 +322,7 @@ def par2(r1, r2):
     rep_r1 = div_interval(one, r1)
     rep_r2 = div_interval(one, r2)
     return div_interval(one, add_interval(rep_r1, rep_r2))
+
 def check_par():
     """Return two intervals that give different results for parallel resistors.
 
@@ -330,8 +332,8 @@ def check_par():
     >>> lower_bound(x) != lower_bound(y) or upper_bound(x) != upper_bound(y)
     True
     """
-    r1 = interval(1, 1) # Replace this line!
-    r2 = interval(1, 1) # Replace this line!
+    r1 = interval(1, 3) 
+    r2 = interval(1, 3) 
     return r1, r2
 
 
@@ -349,6 +351,7 @@ def quadratic(x, a, b, c):
     '0 to 10'
     """
     "*** YOUR CODE HERE ***"
+    
 
 
 
