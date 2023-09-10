@@ -187,8 +187,17 @@ def make_joint(withdraw, old_pass, new_pass):
     >>> make_joint(w, 'hax0r', 'hello')
     "Frozen account. Attempts: ['my', 'secret', 'password']"
     """
-    "*** YOUR CODE HERE ***"
+    "*** YOUR CODE HERE ***" 
+    def password_protected_withdraw(amount, password_input):
+        nonlocal withdraw, old_pass, new_pass
+        if password_input == new_pass:
+            return withdraw(amount, old_pass)   
+        return withdraw(amount, password_input)
 
+    attempts_message = withdraw(0, old_pass)
+    if type(attempts_message) == str:
+        return attempts_message
+    return password_protected_withdraw
 
 def remainders_generator(m):
     """
