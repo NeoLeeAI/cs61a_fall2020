@@ -84,7 +84,7 @@ def insert_items(lst, entry, elem):
     True
     """
     "*** YOUR CODE HERE ***"
-    sign = False #to aovid the infinitely long list when entry and elem are equivalent
+    sign = False #a sign when insert happen and entry == elem
 
     for i in range(len(lst)):
         if sign:
@@ -92,7 +92,7 @@ def insert_items(lst, entry, elem):
             continue
         elif lst[i] == entry:
             lst.insert(i+1, elem) 
-            if entry == elem:
+            if entry == elem
                 sign = True
         else:
             pass
