@@ -51,6 +51,7 @@ class Insect:
     """An Insect, the base class of Ant and Bee, has armor and a Place."""
 
     damage = 0
+    is_watersafe = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor, place=None):
@@ -164,6 +165,8 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     food_cost = 3
+    min_range = 0
+    max_range = float('inf')
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
 
     def nearest_bee(self, beehive):
@@ -174,11 +177,13 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         temp_place = self.place
+        current_range = 0
         while temp_place != beehive:  
-            if temp_place.bees:
+            if temp_place.bees and (self.min_range <= current_range <= self.max_range):
                 return rANTdom_else_none(temp_place.bees)
             else:
                 temp_place = temp_place.entrance
+                current_range += 1
         return None
         # END Problem 3 and 4
 
@@ -208,7 +213,9 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    min_range = 0
+    max_range = 3
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -218,7 +225,9 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    min_range = 5
+    max_range = float('inf')
     # END Problem 4
 
 class FireAnt(Ant):
@@ -229,7 +238,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, armor=3):
@@ -245,6 +254,14 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        bees_copy = list(self.place.bees)
+        Ant.reduce_armor(self, amount)
+        if self.armor <= 0:
+            for a in bees_copy:
+                a.reduce_armor(self.damage+amount)
+        else:
+            for a in bees_copy:
+                a.reduce_armor(amount)
         # END Problem 5
 
 class HungryAnt(Ant):
@@ -255,28 +272,48 @@ class HungryAnt(Ant):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    time_to_digest = 3
     # END Problem 6
 
     def __init__(self, armor=1):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        Ant.__init__(self, armor)
+        self.digesting = 0       
         # END Problem 6
 
     def eat_bee(self, bee):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        if bee:
+            randon_bee = rANTdom_else_none(bee)
+            randon_bee.reduce_armor(randon_bee.armor)
+            self.digesting = self.time_to_digest
+        return None
         # END Problem 6
 
     def action(self, gamestate):
         # BEGIN Problem 6
         "*** YOUR CODE HERE ***"
+        if self.digesting:
+            self.digesting -= 1
+        else:
+            self.eat_bee(self.place.bees)
         # END Problem 6
 
 
 
 # BEGIN Problem 7
-# The WallAnt class
+class WallAnt(Ant):
+    '''WallAnt won't do nothing each turn, but it has a large armor value'''
+    
+    name = 'Wall'
+    food_cost = 4
+    implemented = True
+
+    def __init__(self, armor=4):
+        Ant.__init__(self, armor)
 # END Problem 7
 
 
@@ -288,6 +325,9 @@ class Water(Place):
         its armor to 0."""
         # BEGIN Problem 8
         "*** YOUR CODE HERE ***"
+        Place.add_insect(self, insect)
+        if not insect.is_watersafe:
+            insect.reduce_armor(insect.armor)
         # END Problem 8
 
 # BEGIN Problem 9
@@ -345,6 +385,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
+    is_watersafe = True
     # OVERRIDE CLASS ATTRIBUTES HERE
 
 
