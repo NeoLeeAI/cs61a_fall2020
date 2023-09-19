@@ -110,6 +110,7 @@ class Ant(Insect):
     def __init__(self, armor=1):
         """Create an Ant with an ARMOR quantity."""
         Insect.__init__(self, armor)
+        self.double_check = False
 
     def can_contain(self, other):
         return False
@@ -244,6 +245,7 @@ class FireAnt(Ant):
     def __init__(self, armor=3):
         """Create an Ant with an ARMOR quantity."""
         Ant.__init__(self, armor)
+        self.double_check = False
 
     def reduce_armor(self, amount):
         """Reduce armor by AMOUNT, and remove the FireAnt from its place if it
@@ -331,24 +333,33 @@ class Water(Place):
         # END Problem 8
 
 # BEGIN Problem 9
-# The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    '''ScubaThrower is more costly and watersafe, but otherwise identical to ThrowerAnt'''
+    
+    name = 'Scuba'
+    food_cost = 6
+    is_watersafe = True
+    implemented = True
 # END Problem 9
-
 # BEGIN Problem EC
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):  # You should change this line
 # END Problem EC
     """The Queen of the colony. The game is over if a bee enters her place."""
 
     name = 'Queen'
     food_cost = 7
+    num_queen = 0 
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem EC
 
     def __init__(self, armor=1):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        ScubaThrower.__init__(self, armor)
+        self.index = QueenAnt.num_queen
+        QueenAnt.num_queen += 1
         # END Problem EC
 
     def action(self, gamestate):
@@ -359,6 +370,17 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if self.index != 0:
+            self.reduce_armor(self.armor)
+        else:
+            ScubaThrower.action(self, gamestate)
+            temp_place = self.place.exit
+            while temp_place != None:
+                if temp_place.ant and hasattr(temp_place.ant, 'damage'): 
+                    if not temp_place.ant.double_check:
+                        temp_place.ant.damage *= 2
+                        temp_place.ant.double_check = True
+                temp_place = temp_place.exit
         # END Problem EC
 
     def reduce_armor(self, amount):
@@ -367,6 +389,15 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        ScubaThrower.reduce_armor(self, amount)
+        if self.index == 0:
+            bees_win()
+
+    def remove_from(self, place):
+        if self.index != 0:
+            ScubaThrower.remove_from(self, place)
+        else:
+            return None
         # END Problem EC
 
 
