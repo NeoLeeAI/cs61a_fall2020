@@ -100,12 +100,15 @@ class Mint:
 
     def __init__(self):
         self.update()
+        self.year = self.current_year
 
     def create(self, kind):
         "*** YOUR CODE HERE ***"
+        return kind(self.year)
 
     def update(self):
         "*** YOUR CODE HERE ***"
+        self.year = self.current_year
 
 class Coin:
     def __init__(self, year):
@@ -113,6 +116,11 @@ class Coin:
 
     def worth(self):
         "*** YOUR CODE HERE ***"
+        age = Mint.current_year - self.year
+        if age >= 50:
+            return self.cents + (age - 50)
+        else:
+            return self.cents 
 
 class Nickel(Coin):
     cents = 5
@@ -137,7 +145,13 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
-
+    assert n > 0
+    example_link = ()
+    while n != 0:
+        last = n % 10
+        n = n // 10
+        example_link = Link(last, example_link)
+    return example_link
 
 def is_bst(t):
     """Returns True if the Tree t has the structure of a valid BST.
