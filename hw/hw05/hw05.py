@@ -179,6 +179,29 @@ def is_bst(t):
     False
     """
     "*** YOUR CODE HERE ***"
+    assert isinstance(t, Tree)
+
+    def bst_min(t):
+        if t.is_leaf():
+            return t.label
+        else:
+            return min(t.label, bst_min(t.branches[-1]))
+    
+    def bst_max(t):
+        if t.is_leaf():
+            return t.label
+        else:
+            return max(t.label, bst_max(t.branches[0]))
+        
+    if t.is_leaf():
+        return True
+    elif len(t.branches) > 2:
+        return False
+    elif len(t.branches) == 2:
+        return bst_max(t) <= t.label <= bst_min(t) and not [is_bst(b) for b in t.branches].count(False)
+    else:
+        return not [is_bst(b) for b in t.branches].count(False)
+
 
 
 def preorder(t):
