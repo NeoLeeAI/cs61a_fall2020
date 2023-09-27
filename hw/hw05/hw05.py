@@ -215,7 +215,13 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
-
+    assert isinstance(t, Tree)
+    preorder_list = []
+    preorder_list.append(t.label)
+    if not t.is_leaf():
+        for b in t.branches:
+            preorder_list.extend(preorder(b)) 
+    return preorder_list
 
 def path_yielder(t, value):
     """Yields all possible paths from the root of t to a node with the label value
@@ -253,11 +259,9 @@ def path_yielder(t, value):
     """
 
     "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
-
-            "*** YOUR CODE HERE ***"
+    for  in :
+        for  in :
+    "*** YOUR CODE HERE ***"
 
 
 class Link:
