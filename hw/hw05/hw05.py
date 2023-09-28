@@ -257,10 +257,15 @@ def path_yielder(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-
     "*** YOUR CODE HERE ***"
-    for  in :
-        for  in :
+    assert isinstance(t, Tree)
+    path = []
+    path.append(t.label)
+    if t.label == value:
+        yield path
+    for b in t.branches:
+        for p in path_yielder(b, value):
+            yield path + p
     "*** YOUR CODE HERE ***"
 
 
