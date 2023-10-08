@@ -74,6 +74,16 @@ def has_cycle(link):
     False
     """
     "*** YOUR CODE HERE ***"
+    track_link = [] 
+    def helper(link):
+        if link.rest == Link.empty:
+            return False
+        elif link.rest in track_link:
+            return True
+        else:
+            track_link.append(link)
+            return helper(link.rest)
+    return helper(link)
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
