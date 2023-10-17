@@ -3,3 +3,4 @@
 'make_generators_generator-correct', (1024, 66)
 'Keyboard-correct', (1536, 66)
 'make_advanced_counter_maker-correct', (2048, 66)
+'trade-correct', (2560, 66)
