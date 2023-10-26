@@ -26,3 +26,23 @@
 )
 
 #5.2
+(car (cdr (cdr (cdr s))))
+
+#5.3
+(define (duplicate lst)
+    (if (equal? nil (cdr lst))
+        (cons (car lst) (cons (car lst) nil))
+        (cons (car lst) (cons (car lst) (duplicate (cdr lst))))
+    )
+)
+
+#5.4
+(define (insert element lst index)
+    (define (helper element lst index a)
+        (if (= a index)
+            (cons element lst)
+            (cons (car lst) (helper element (cdr lst) index (+ a 1)))
+        )
+    )
+    (helper element lst index 0)
+)
