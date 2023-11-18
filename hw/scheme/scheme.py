@@ -137,7 +137,12 @@ class Frame(object):
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
+        child_frame= Frame(self)
+        while formals != nil:
+            child_frame.define(formals.first, vals.first)
+            formals = formals.rest
+            vals = vals.rest
+        return child_frame
         # END PROBLEM 10
 
 ##############
@@ -205,7 +210,8 @@ class LambdaProcedure(Procedure):
         """Make a frame that binds my formal parameters to ARGS, a Scheme list
         of values, for a lexically-scoped call evaluated in environment ENV."""
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
+        call_frame = self.env.make_child_frame(self.formals, args)
+        return call_frame
         # END PROBLEM 11
 
     def __str__(self):
@@ -352,7 +358,16 @@ def do_and_form(expressions, env):
     False
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
+    if expressions == nil:
+        return True
+    while True:
+        if expressions.rest == nil:
+            return scheme_eval(expressions.first, env)
+        else:
+            result = scheme_eval(expressions.first, env)
+            if is_false_primitive(result):
+                return False
+            expressions = expressions.rest
     # END PROBLEM 12
 
 def do_or_form(expressions, env):
@@ -369,7 +384,16 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
+    if expressions == nil:
+        return False
+    while True:
+        if expressions.rest == nil:
+            return scheme_eval(expressions.first, env)
+        else:
+            result = scheme_eval(expressions.first, env)
+            if is_true_primitive(result):
+                return result
+            expressions = expressions.rest
     # END PROBLEM 12
 
 def do_cond_form(expressions, env):
@@ -389,7 +413,9 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
+            if clause.rest == nil:
+                return test
+            return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -413,7 +439,15 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     names, values = nil, nil
     # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
+    while bindings != nil:
+         current = bindings.first
+         validate_form(current, 2, 2)
+         name = current.first
+         names = Pair(name, names)
+         validate_formals(names) 
+         value = scheme_eval(current.rest.first, env)
+         values = Pair(value, values)
+         bindings = bindings.rest      
     # END PROBLEM 14
     return env.make_child_frame(names, values)
 
