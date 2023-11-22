@@ -56,7 +56,25 @@
 ; ; Problem 17
 (define (nondecreaselist s)
   ; BEGIN PROBLEM 17
-  'replace-this-line
+  (cond 
+    ((null? (cdr s))
+     (cons s nil)
+    )
+    ((null? (car s))
+     '()
+    )
+    ((> (car s) (car (cdr s)))
+     (cons (cons (car s) nil)
+           (nondecreaselist (cdr s))
+     )
+    )
+    (else
+     (cons
+      (cons (car s) (car (nondecreaselist (cdr s))))
+      (cdr (nondecreaselist (cdr s)))
+     )
+    )
+  )
 )
 
 ; END PROBLEM 17
