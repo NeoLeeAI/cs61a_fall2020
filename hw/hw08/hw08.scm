@@ -106,12 +106,29 @@
 )
 
 ; Exponentiations are represented as lists that start with ^.
-(define (make-exp base exponent) 'YOUR-CODE-HERE)
+(define (make-exp base exponent)
+  (cond 
+    ((=number? exponent 1) base)
+    ((=number? exponent 0) 1)
+    ((number? base)        (expt base exponent))
+    (else                  `(^ ,base ,exponent))
+  )
+)
 
-(define (exp? exp) 'YOUR-CODE-HERE)
+(define (exp? exp)
+  (cond 
+    ((atom? exp)           #f)
+    ((equal? (car exp) '^) #t)
+    (else                  #f)
+  )
+)
 
 (define x^2 (make-exp 'x 2))
 
 (define x^3 (make-exp 'x 3))
 
-(define (derive-exp exp var) 'YOUR-COD)
+(define (derive-exp exp var)
+  (make-product (second-operand exp)
+     (make-exp (first-operand exp) (- (second-operand exp) 1))
+  )
+)
